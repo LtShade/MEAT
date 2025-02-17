@@ -22,6 +22,11 @@ model Post {
   @@index([authorId])
 }
 
+model Source {
+  id     String @id @default(uuid()) @postgresql.Uuid
+  source String @default("")
+}
+
 model Tag {
   id    String @id @default(uuid()) @postgresql.Uuid
   name  String @default("")

@@ -21,13 +21,18 @@ For a container engine, one of the following is recommended:
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Validated)
 - [Podman](https://podman.io/) (Untested)
 
-Here are the steps to use to the boilerplate:
-
-1. Clone the repository
-2. Open the repository in VSCode
-3. Copy the `.env.example` file to `.env`
-3. Run `Dev Containers: Reopen in Container` in the command pallet in VSCode (`CTRL+SHIFT+P` by default)
-4. Using the terminal inside of VSCode, run `yarn dev`
+Here are the steps to use to the boilerplate (assuming WSL and Docker):
+1. Install WSL
+2. Install Docker
+3. Enable WSL Integration for Ubuntu in Docker
+4. Install VS Code and Remote Development extension
+5. Install Terminal (recommended)
+6. In Ubuntu (use Terminal), create directory
+7. Clone the repository, git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
+8. Open the repository in VSCode, code .
+9. Copy the `.env.example` file to `.devcontainer/.env`
+10. Run `Dev Containers: Reopen in Container` in the command pallet in VSCode (`CTRL+SHIFT+P` by default)
+11. Using the terminal inside of VSCode, run `yarn dev`
 
 Open [http://localhost:8080](http://localhost:8080) with your browser to see the CMS.
 
