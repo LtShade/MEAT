@@ -4,7 +4,7 @@ import { allowAll } from "@keystone-6/core/access";
 import { relationship, text } from "@keystone-6/core/fields";
 import { document } from "@keystone-6/fields-document";
 
-
+// --- SAMPLE FILE --- //
 
 export const Post: Exclude<Lists["Post"], undefined> = list({
   // WARNING
@@ -12,7 +12,7 @@ export const Post: Exclude<Lists["Post"], undefined> = list({
   //   if you want to prevent random people on the internet from accessing your data,
   //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
   access: allowAll,
-
+  ui:{isHidden:true},
   // this is the fields for our Post list
   fields: {
     title: text({ validation: { isRequired: true } }),
@@ -49,25 +49,6 @@ export const Post: Exclude<Lists["Post"], undefined> = list({
       // a Post can only have one author
       //   this is the default, but we show it here for verbosity
       many: false,
-    }),
-
-    // with this field, you can add some Tags to Posts
-    tags: relationship({
-      // we could have used 'Tag', but then the relationship would only be 1-way
-      ref: "Tag.posts",
-
-      // a Post can have many Tags, not just one
-      many: true,
-
-      // this is some customisations for changing how this will look in the AdminUI
-      ui: {
-        displayMode: "cards",
-        cardFields: [ "name" ],
-        inlineEdit: { fields: [ "name" ] },
-        linkToItem: true,
-        inlineConnect: true,
-        inlineCreate: { fields: [ "name" ] },
-      },
     }),
   },
 });
