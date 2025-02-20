@@ -11,26 +11,106 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Equipment {
+  id                                String                    @id @default(uuid()) @postgresql.Uuid
+  name                              String                    @default("")
+  nameClan                          String?
+  official                          Boolean                   @default(false)
+  canon                             Boolean                   @default(false)
+  sources                           Source[]                  @relation("Equipment_sources")
+  techBase                          EquipmentTechBaseType?
+  scale                             EquipmentScaleType?
+  cost                              Int?
+  bv                                Int?
+  chassisType                       EquipmentChassisTypeType?
+  motiveType                        EquipmentMotiveTypeType?
+  gearType                          EquipmentGearTypeType?
+  omni                              Boolean                   @default(false)
+  atmospheric                       Boolean                   @default(false)
+  maxWeight                         Float?
+  slotCapacity                      Int?
+  weight                            Float?
+  criticalSlots                     Int?
+  weightPerPoint                    Float?
+  weightFactor                      Float?
+  structureFactor                   Float?
+  variableWeight                    String?
+  variableCrits                     String?
+  variableDamage                    String?
+  damage                            Float?
+  heat                              Int?
+  rangeMin                          Int?
+  rangeShort                        Int?
+  rangeMed                          Int?
+  rangeLong                         Int?
+  shots                             Int?
+  rating                            Int?
+  engineType                        EquipmentEngineTypeType?
+  engineTech                        EquipmentEngineTechType?
+  gyroType                          EquipmentGyroTypeType?
+  prototypePhase                    Int?
+  productionPhase                   Int?
+  commonPhase                       Int?
+  extinctPhase                      Int?
+  reintroPhase                      Int?
+  availabilityRating                String                    @default("X-X/X/X/X")
+  alternateEquipment                Equipment[]               @relation("Equipment_alternateEquipment")
+  from_Equipment_alternateEquipment Equipment[]               @relation("Equipment_alternateEquipment")
+}
+
+model Faction {
+  id         String      @id @default(uuid()) @postgresql.Uuid
+  name       String      @unique @default("")
+  ownerships Ownership[] @relation("Ownership_faction")
+}
+
+model Manufacturer {
+  id      String   @id @default(uuid()) @postgresql.Uuid
+  name    String   @default("")
+  planets Planet[] @relation("Manufacturer_planets")
+}
+
+model Ownership {
+  id        String    @id @default(uuid()) @postgresql.Uuid
+  startDate DateTime? @postgresql.Date
+  endDate   DateTime? @postgresql.Date
+  faction   Faction?  @relation("Ownership_faction", fields: [factionId], references: [id])
+  factionId String?   @map("faction") @postgresql.Uuid
+  planet    Planet?   @relation("Ownership_planet", fields: [planetId], references: [id])
+  planetId  String?   @unique @map("planet") @postgresql.Uuid
+
+  @@index([factionId])
+}
+
+model Planet {
+  id            String         @id @default(uuid()) @postgresql.Uuid
+  name          String         @default("")
+  fullName      String         @default("")
+  tags          Tag[]          @relation("Planet_tags")
+  manufacturers Manufacturer[] @relation("Manufacturer_planets")
+  ownership     Ownership?     @relation("Ownership_planet")
+}
+
 model Post {
   id       String  @id @default(uuid()) @postgresql.Uuid
   title    String  @default("")
   content  Json    @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   author   User?   @relation("Post_author", fields: [authorId], references: [id])
   authorId String? @map("author") @postgresql.Uuid
-  tags     Tag[]   @relation("Post_tags")
 
   @@index([authorId])
 }
 
 model Source {
-  id     String @id @default(uuid()) @postgresql.Uuid
-  source String @default("")
+  id         String      @id @default(uuid()) @postgresql.Uuid
+  name       String      @default("")
+  equipments Equipment[] @relation("Equipment_sources")
 }
 
 model Tag {
-  id    String @id @default(uuid()) @postgresql.Uuid
-  name  String @default("")
-  posts Post[] @relation("Post_tags")
+  id      String   @id @default(uuid()) @postgresql.Uuid
+  name    String   @unique @default("")
+  planets Planet[] @relation("Planet_tags")
 }
 
 model User {
@@ -40,4 +120,88 @@ model User {
   password  String
   posts     Post[]    @relation("Post_author")
   createdAt DateTime? @default(now())
+}
+
+enum EquipmentTechBaseType {
+  InnerSphere
+  Clans
+}
+
+enum EquipmentScaleType {
+  Infantry
+  BattleArmor
+  Vehicle
+  Capital
+}
+
+enum EquipmentChassisTypeType {
+  AerospaceFighter
+  BattleArmor
+  CombatVehicle
+  ConventionalFighter
+  DropShip
+  JumpShip
+  Mek
+  ProtoMek
+  SmallCraft
+  SpaceStation
+  SupportVehicle
+  WarShip
+}
+
+enum EquipmentMotiveTypeType {
+  Aerodyne
+  AerospaceFlight
+  Biped
+  ConventionalFlight
+  Hover
+  Hydrofoil
+  Naval
+  Quadraped
+  QuadVee
+  Spheroid
+  Submarine
+  Tracked
+  Tripod
+  VTOL
+  Wheeled
+  WiGE
+}
+
+enum EquipmentGearTypeType {
+  Armor
+  Chassis
+  Cockpit
+  Engine
+  Equipment
+  Gyro
+  HeatSink
+  JumpJet
+  Physical
+  Structure
+  Weapon
+}
+
+enum EquipmentEngineTypeType {
+  ICE
+  Fission
+  FuelCell
+  Fusion
+}
+
+enum EquipmentEngineTechType {
+  Standard
+  Light
+  Compact
+  XL
+  XXL
+  XLClan
+  XXLClan
+}
+
+enum EquipmentGyroTypeType {
+  Standard
+  Compact
+  XL
+  HeavyDuty
 }

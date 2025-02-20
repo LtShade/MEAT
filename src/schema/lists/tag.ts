@@ -14,13 +14,13 @@ export const Tag: Exclude<Lists["Tag"], undefined> = list({
 
   // setting this to isHidden for the user interface prevents this list being visible in the Admin UI
   ui: {
-    isHidden: true,
+    isHidden: false,
   },
 
   // this is the fields for our Tag list
   fields: {
-    name: text(),
-    // this can be helpful to find out all the Posts associated with a Tag
-    posts: relationship({ ref: "Post.tags", many: true }),
+    name: text({ validation: { isRequired: true }, isIndexed: "unique" }),
+    // this can be helpful to find out all the Planets associated with a Tag
+    planets: relationship({ ref: "Planet.tags", many: true }),
   },
 });

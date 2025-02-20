@@ -15,6 +15,8 @@ export const Source: Exclude<Lists["Source"], undefined> = list({
 
   // Sources include sourcebook titles such as rulebooks, technical readouts, or other publications such as fan-made materials or videogame mods.
   fields: {
-    source: text({ validation: { isRequired: true } }),
+    name: text({ validation: { isRequired: true } }),
+    equipments: relationship({ ref: "Equipment.sources", many: true }),
   },
+  
 });

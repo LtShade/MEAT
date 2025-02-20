@@ -1,0 +1,1 @@
+export const Rating = new RegExp("[A-FX]-[A-FX]\/[A-FX]\/[A-FX]\/[A-FX]")

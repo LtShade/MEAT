@@ -43,3 +43,8 @@ The following are the notable libraries used in the boilerplate:
 - [TypeScript](https://www.typescriptlang.org/)
 - [KeystoneJS](https://keystonejs.com/)
   - [Prisma](https://www.prisma.io/) is used by KeystoneJS and is the database engine
+
+
+  ## Database Schema
+
+  The initial plan: https://miro.com/app/board/uXjVKGiGnE0=/
